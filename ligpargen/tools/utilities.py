@@ -184,7 +184,7 @@ def getAtomsNameAndMolFromPDB(ifile):
 
     logger.info('Retreiving atom names form PDB:' + ifile)
 
-    atomsData = [[line[12:16], line[17:20]] for line in open(ifile) if 'ATOM' in line[:4]]
+    atomsData = [[line[12:16], line[17:20]] for line in open(ifile) if line.startswith('ATOM') or line.startswith('HETATM')]
 
     atomsName = [item[0] for item in atomsData]
     resName = atomsData[0][1]

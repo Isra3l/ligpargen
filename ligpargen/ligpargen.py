@@ -307,7 +307,7 @@ class LigParGen():
 
                 if len(atomsNameOriginal) != len(set(atomsNameOriginal)):
 
-                    self.logger.warning('Duplicate names in input file found! Using new generated names')
+                    logger.warning('Duplicate names in input file found! Using new generated names')
 
                 else:
 
@@ -343,25 +343,25 @@ class LigParGen():
         """
 
         if self.ifile != None and not os.path.isfile(self.ifile): 
-            self.logger.error('Input file: '+self.ifile+' does NOT exist')
+            logger.error('Input file: '+self.ifile+' does NOT exist')
             exit()
 
 
         if self.ifileB != None and not os.path.isfile(self.ifileB): 
-            self.logger.error('Input file: '+self.ifileB+' does NOT exist')
+            logger.error('Input file: '+self.ifileB+' does NOT exist')
             exit()
 
         if self.smile==None and self.ifile==None:
 
-            self.logger.error("       ERROR!    Missing input molecule.")
+            logger.error("       ERROR!    Missing input molecule.")
             exit()
 
         if self.smile!=None and self.ifile != None:
-            self.logger.error("       ERROR!    SMILE and INPUT file provided. Choose one!!!")
+            logger.error("       ERROR!    SMILE and INPUT file provided. Choose one!!!")
             exit()
 
         if self.smileB!=None and self.ifileB != None:
-            self.logger.error("       ERROR!    SMILE molecule B and INPUT molecule B file provided. Choose one!!!")
+            logger.error("       ERROR!    SMILE molecule B and INPUT molecule B file provided. Choose one!!!")
             exit()
 
 
