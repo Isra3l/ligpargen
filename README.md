@@ -5,7 +5,7 @@
 **Place:** &nbsp;&nbsp;&nbsp; William L. Jorgensen Lab at Yale University // Jens Carlsson Lab at Uppsala university</br>
 **Date:** &nbsp;&nbsp;  2020-2021
 
-**Description:** An automatic OPLS-AA parameter generator for small organic molecules using CM1A, 1.14CM1A and CM1A-LBCC charge models. LigParGen input molecules can be in any accepted input format in Open Babel software including SMILES, PDB, MOL, MOL2, among others. The final output parameters will be generated using the format inputs of BOSS, Q, Tinker, PQR, openMM, CHARMM/NAMD, Gromacs, LAMMPS, Desmond, and xplor softwares.
+**Description:** An automatic OPLS-AA parameter generator for small organic molecules using CM1A, 1.14CM1A and CM1A-LBCC charge models. LigParGen accepts any Open Babel molecular format including SMILES, PDB, MOL, MOL2, among others. Final OPLSAA parameter outputs will be written in topology/coordinate input files for BOSS, Q, Tinker, PQR, openMM, CHARMM/NAMD, Gromacs, LAMMPS, Desmond, and xplor softwares.
 
 **Note:** This new version has been written from scratch but it is based on the **Leela Dodda** initial ligpargen python code.
 
@@ -15,7 +15,7 @@ New LigParGen features:
 - This new version of the ligpargen includes a robust version of the alchemical transformation method to generate single and dual topologies for four different molecular mechanics softwares (BOSS, CHARMM/NAMD, Gromacs, and Tinker).
 - Sanity checks to detect incorrect inputs have been implemented (incompatible charge model, net molecule charge, input format, ...).
 - A log file to check the inputs, outputs, and intermediate processes has been created. This allows tracking the input information (charge model used, input molecule,...) and also provides useful warnings in case of error.
-- Automatic net charge detection in the input molecule has been added. If the user specifies a different charge than one automatically estimated, the log file will include a warnning.
+- Automatic net charge detection in the input molecule. If the user specifies a different charge than one automatically estimated, the log file will include a warnning.
 - Atom XYZ positions in the molecule input remain unchanged in the output files.
 - Hydrogen atoms will be added automatically just for SMILES inputs. Molecules in any other input format require to have all hydrogens to provide more flexibility of the protonation states. In this way, the user can avoid parameterization problems with tautomers or stereoisomers.
 - Different molecule input format, net charges, charge models, and optimization steps can be used for each molecule in alchemical transformations.
@@ -64,7 +64,7 @@ or
 
     wget https://github.com/Isra3l/ligpargen.git
 
-    pip install ligpargen
+    pip install -e ligpargen
 
 **Optional:** Check your installation by runing the tests included in the ligpargen folder.
 
