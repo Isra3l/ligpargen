@@ -62,13 +62,13 @@ or
 
 5 - Download and install LigParGen
 
-    wget https://github.com/Isra3l/ligpargen.git
+    git clone https://github.com/Isra3l/ligpargen.git
 
     pip install -e ligpargen
 
 **Optional:** Check your installation by runing the tests included in the ligpargen folder.
 
-    cd ligpargen;python -m unittest
+    cd ligpargen;python -m unittest test_ligpargen/test_ligpargen.py
 
 **TIP:** Do not forget to activate your py37 enviroment before using LigParGen.
 
