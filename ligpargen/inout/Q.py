@@ -413,11 +413,11 @@ def writeFEP(molecule, fepFile):
 
             ofile.write('\n[torsion_types]\n')
 
-            for torsion in torsionTypes: ofile.write('%d %5.1f %5.1f %5.1f %5.1f\n' % (torsion[0], torsion[1], torsion[2], torsion[3], torsion[4]))
+            for torsion in torsionTypes: ofile.write('%d %5.3f %5.3f %5.3f %5.3f\n' % (torsion[0], torsion[1]*0.5, torsion[2]*0.5, torsion[3]*0.5, torsion[4]*0.5))
 
             ofile.write('\n[change_torsions]\n')
 
-            for torsion in torsionChange: ofile.write('%d %d %d %d %d %d\n' % (torsion[0], torsion[1], torsion[2], torsion[3], torsion[4], torsion[5]))
+            for torsion in torsionChange: ofile.write('%4d %4d %4d %4d %4d %4d\n' % (torsion[0], torsion[1], torsion[2], torsion[3], torsion[4], torsion[5]))
 
 
         totalTorsionsImproper = [torsion for torsion in molecule.torsionsVariable + molecule.torsionsAdditional if torsion.improper] 
@@ -428,7 +428,7 @@ def writeFEP(molecule, fepFile):
 
             ofile.write('\n[improper_types]\n')
 
-            for torsion in torsionTypes: ofile.write('%d %5.1f\n' % (torsion[0], torsion[1]))
+            for torsion in torsionTypes: ofile.write('%d %6.3f %6.3f\n' % (torsion[0], torsion[1]*0.5, torsion[2]))
 
             ofile.write('\n[change_impropers]\n')
 
@@ -507,7 +507,7 @@ def generateChangeList(bondedTerms, numberOfStructuralDummyAtoms):
 
             tmpType = list(dict.fromkeys(tmpType))
 
-            termTypes = [[i]+ [term] for i, term in enumerate(tmpType, start = 1)]
+            termTypes = [[i]+ [term] + [180.0] for i, term in enumerate(tmpType, start = 1)]
 
             for item in tmpChanges:
 
