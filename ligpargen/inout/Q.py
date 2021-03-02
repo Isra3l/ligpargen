@@ -342,7 +342,7 @@ def writeFEP(molecule, fepFile):
             ofile.write('%s %10.4f %10.4f\n' % (str(i).ljust(3),atom.charge, atom.charge_B))
 
 
-        ofile.write('\n[atom types]\n')
+        ofile.write('\n[atom_types]\n')
 
 
         qatomtypeInMoleculeLst = []
@@ -363,7 +363,7 @@ def writeFEP(molecule, fepFile):
             qatomtypeInMoleculeLst.append(atom.type_q_B)
 
             
-        ofile.write('\n[change atoms]\n')
+        ofile.write('\n[change_atoms]\n')
 
         for i, atom in enumerate(molecule.atoms[molecule.numberOfStructuralDummyAtoms:], start=1): 
             ofile.write('%s %10s %10s\n' % (str(i).ljust(3),atom.type_q, atom.type_q_B))
@@ -417,7 +417,7 @@ def writeFEP(molecule, fepFile):
 
             ofile.write('\n[change_torsions]\n')
 
-            for torsion in torsionChange: ofile.write('%d %d %d %d %d\n' % (torsion[0], torsion[1], torsion[2], torsion[3], torsion[4]))
+            for torsion in torsionChange: ofile.write('%d %d %d %d %d %d\n' % (torsion[0], torsion[1], torsion[2], torsion[3], torsion[4], torsion[5]))
 
 
         totalTorsionsImproper = [torsion for torsion in molecule.torsionsVariable + molecule.torsionsAdditional if torsion.improper] 
@@ -428,11 +428,11 @@ def writeFEP(molecule, fepFile):
 
             ofile.write('\n[improper_types]\n')
 
-            for torsion in torsionTypes: ofile.write('%d %5.1f %5.1f %5.1f %5.1f\n' % (torsion[0], torsion[1], torsion[2]))
+            for torsion in torsionTypes: ofile.write('%d %5.1f\n' % (torsion[0], torsion[1]))
 
             ofile.write('\n[change_impropers]\n')
 
-            for torsion in torsionChange: ofile.write('%d %d %d %d %d\n' % (torsion[0], torsion[1], torsion[2], torsion[3], torsion[4]))
+            for torsion in torsionChange: ofile.write('%d %d %d %d %d %d\n' % (torsion[0], torsion[1], torsion[2], torsion[3], torsion[4], torsion[5]))
 
 
 
@@ -507,7 +507,7 @@ def generateChangeList(bondedTerms, numberOfStructuralDummyAtoms):
 
             tmpType = list(dict.fromkeys(tmpType))
 
-            termTypes = [[i]+ list(term) for i, term in enumerate(tmpType, start =1)]
+            termTypes = [[i]+ [term] for i, term in enumerate(tmpType, start = 1)]
 
             for item in tmpChanges:
 
@@ -515,7 +515,6 @@ def generateChangeList(bondedTerms, numberOfStructuralDummyAtoms):
                 indexB = tmpType.index((item[5]))+1
 
                 termChange.append([item[0], item[1], item[2], item[3], indexA, indexB])
-
 
         else:
 
@@ -541,7 +540,6 @@ def generateChangeList(bondedTerms, numberOfStructuralDummyAtoms):
                 indexB = tmpType.index((item[8], item[9], item[10], item[11]))+1
 
                 termChange.append([item[0], item[1], item[2], item[3], indexA, indexB])
-
 
 
     return termTypes, termChange

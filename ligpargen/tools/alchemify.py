@@ -154,6 +154,8 @@ def generateMoleculeAB_singleTopology(moleculeA, moleculeB, BtoAIndexCorresponde
     generateABbondingTerms(moleculeAB.atoms, moleculeAB.torsionsVariable, moleculeB.torsionsVariable, AtoBserialCorrespondency, BtoAserialCorrespondency, umatchBSerial)
     generateABbondingTerms(moleculeAB.atoms, moleculeAB.torsionsAdditional, moleculeB.torsionsAdditional, AtoBserialCorrespondency, BtoAserialCorrespondency, umatchBSerial)
 
+    generateABbondingTerms_newImpropers(moleculeAB.atoms, moleculeAB.torsionsAdditional, moleculeB.torsionsAdditional, AtoBserialCorrespondency, BtoAserialCorrespondency, umatchBSerial)
+
     generateGeometryVariations(moleculeAB)
     
     generateExcludedAtomLst(moleculeAB)
@@ -408,6 +410,67 @@ def generateGeometryVariations(moleculeAB):
 
         if atom.typeA==100: atom.r = 0.3
 
+
+def generateABbondingTerms_newImpropers(atomsAB, bondingList_AB, bondingList_B, AtoBserialCorrespondency, BtoAserialCorrespondency, umatchBSerial):
+    """
+    Generate impropers existing just in B molecule list in single topology
+
+    Parameters
+    ----------
+    atomsAB : Atom lst
+        Atom list of molecule AB
+    bondingList_AB : lst
+        Bonded list to build
+    bondingList_B : lst
+        Bonded list in molecule B
+    AtoBserialCorrespondency : dict
+        Atom A serials correspondency to atom B serials
+    BtoAserialCorrespondency : dict
+        Atom B serials correspondency to atom A serials
+    umatchBSerial : lst
+        Atom serials of molecule B not present in molecule A
+    """
+
+    for bondB in bondingList_B:
+    
+        umatchAtomInBondB = [True for atomBSerial in umatchBSerial if atomBSerial in [atom.serial for atom in bondB.getAtoms()]]
+    
+        if len(umatchAtomInBondB)==0:
+
+            newBond = copy.deepcopy(bondB)
+
+            newBond.atomA = atomsAB[BtoAserialCorrespondency[newBond.atomA.serial]-1]
+            newBond.atomB = atomsAB[BtoAserialCorrespondency[newBond.atomB.serial]-1]
+            newBond.atomC = atomsAB[BtoAserialCorrespondency[newBond.atomC.serial]-1]
+            newBond.atomD = atomsAB[BtoAserialCorrespondency[newBond.atomD.serial]-1]
+
+            # check if torsion exists in A
+
+            found = False
+
+            for bondA in bondingList_AB:
+
+                if (newBond.atomA.serial==bondA.atomA.serial and newBond.atomB.serial==bondA.atomB.serial \
+                    and newBond.atomC.serial==bondA.atomC.serial and newBond.atomD.serial==bondA.atomD.serial) \
+                    or (newBond.atomD.serial==bondA.atomA.serial and newBond.atomC.serial==bondA.atomB.serial \
+                    and newBond.atomB.serial==bondA.atomC.serial and newBond.atomA.serial==bondA.atomD.serial):
+
+                    found = True
+                    break
+
+            if not found:
+
+                newBond.typeFinal = bondB.typeInitial
+                newBond.typeInitial = 20
+
+                newBond.V1 = 0.0
+                newBond.V2 = 0.0
+                newBond.V3 = 0.0
+                newBond.V4 = 0.0
+
+                bondingList_AB.append(newBond)
+
+                
 
 def generateABbondingTerms(atomsAB, bondingList_AB, bondingList_B, AtoBserialCorrespondency, BtoAserialCorrespondency, umatchBSerial):
     """
