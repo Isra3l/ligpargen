@@ -384,11 +384,11 @@ def writeFEP(molecule, fepFile):
 
             ofile.write('\n[bond_types]\n')
 
-            for bond in bondTypes: ofile.write('%d %5.1f %5.1f\n' % (bond[0], bond[1], bond[2]))
+            for bond in bondTypes: ofile.write('%2d %7.1f %7.3f\n' % (bond[0], bond[1]*2.0, bond[2]))
 
             ofile.write('\n[change_bonds]\n')
 
-            for bond in bondChange: ofile.write('%d %d %d %d\n' % (bond[0], bond[1], bond[2], bond[3]))
+            for bond in bondChange: ofile.write('%2d %d %d %d\n' % (bond[0], bond[1], bond[2], bond[3]))
 
 
         totalAngles = molecule.anglesVariable + molecule.anglesAdditional
@@ -399,11 +399,11 @@ def writeFEP(molecule, fepFile):
 
             ofile.write('\n[angle_types]\n')
 
-            for angle in angleTypes: ofile.write('%d %5.1f %5.1f\n' % (angle[0], angle[1], angle[2]))
+            for angle in angleTypes: ofile.write('%2d %8.2f %6.3f\n' % (angle[0], angle[1]*2.0, angle[2]))
 
             ofile.write('\n[change_angles]\n')
 
-            for angle in angleChange: ofile.write('%d %d %d %d %d\n' % (angle[0], angle[1], angle[2], angle[3], angle[4]))
+            for angle in angleChange: ofile.write('%2d %d %d %d %d\n' % (angle[0], angle[1], angle[2], angle[3], angle[4]))
 
         totalTorsions = [torsion for torsion in molecule.torsionsVariable + molecule.torsionsAdditional if not torsion.improper] 
 
@@ -413,7 +413,19 @@ def writeFEP(molecule, fepFile):
 
             ofile.write('\n[torsion_types]\n')
 
-            for torsion in torsionTypes: ofile.write('%d %5.3f %5.3f %5.3f %5.3f\n' % (torsion[0], torsion[1]*0.5, torsion[2]*0.5, torsion[3]*0.5, torsion[4]*0.5))
+            for torsion in torsionTypes: 
+
+
+                if torsion[1] < 1e-6 and torsion[2] < 1e-6 and torsion[3] < 1e-6 and torsion[4] < 1e-6:
+
+                    ofile.write('%d%8.3f   2.0     0.00\n' % (torsion[0], torsion[1]*0.5))
+
+                if torsion[1] > 1e-7: ofile.write('%d%8.3f   1.0     0.00\n' % (torsion[0], torsion[1]*0.5))
+                if torsion[2] > 1e-7: ofile.write('%d%8.3f   2.0   180.00\n' % (torsion[0], torsion[2]*0.5))
+                if torsion[3] > 1e-7: ofile.write('%d%8.3f   3.0     0.00\n' % (torsion[0], torsion[3]*0.5))
+                if torsion[4] > 1e-7: ofile.write('%d%8.3f   4.0   180.00\n' % (torsion[0], torsion[4]*0.5))
+                
+                # ofile.write('%d %5.3f %5.3f %5.3f %5.3f\n' % (torsion[0], torsion[1]*0.5, torsion[2]*0.5, torsion[3]*0.5, torsion[4]*0.5))
 
             ofile.write('\n[change_torsions]\n')
 
