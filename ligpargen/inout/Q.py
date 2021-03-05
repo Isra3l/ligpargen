@@ -302,7 +302,7 @@ def writeLIB(molecule, libFile):
 
         ofile.write('\n[charge_groups]\n')
 
-        for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]: ofile.write('%-4s' % atom.nameOriginal.upper())
+        for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]: ofile.write('%-5s' % atom.nameOriginal.upper())
 
         ofile.write('\n\n')
 
