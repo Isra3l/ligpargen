@@ -130,7 +130,7 @@ def generateCMDFEPFile(cmdFileName, workdir, forward= True):
 
    with open(os.path.join(workdir, cmdFileName),'w') as f: f.write(newScriptCMD)
 
-def run(zmatName, cgen, opt, charge, molname, workdir, debug):
+def run(zmatName, cgen, opt, charge, molname, workdir, debug, checkrun = True):
    """
    Run BOSS different times to generate Bonds, Angles, Dihedrals, Charges and VdW OPLSAA parameters 
 
@@ -169,7 +169,11 @@ def run(zmatName, cgen, opt, charge, molname, workdir, debug):
 
       shutil.copyfile(zmatName, 'optzmat')
 
-      bossrun = subprocess.run('csh bosscmd',shell=True, capture_output=True, text=True, check=True)
+      bossdir = ''
+
+      if checkrun == False: bossdir = 'source ~/.bashrc;'
+
+      bossrun = subprocess.run(bossdir+'csh bosscmd', shell=True, capture_output=True, text=True, check=checkrun)
 
       # Compute internal parameters
 
@@ -177,13 +181,13 @@ def run(zmatName, cgen, opt, charge, molname, workdir, debug):
 
       generateCMDFile('711', 'out')
 
-      subprocess.run('csh bosscmd',shell=True, capture_output=True, text=True, check=True)
+      subprocess.run(bossdir+'csh bosscmd',shell=True, capture_output=True, text=True, check=checkrun)
 
       generatePARFile(cgen, charge, 'NEWZM', True)
 
       generateCMDFile('211', 'out')
 
-      subprocess.run('csh bosscmd',shell=True, capture_output=True, text=True, check=True)
+      subprocess.run(bossdir+'csh bosscmd',shell=True, capture_output=True, text=True, check=checkrun)
 
       # Optimize molecule
 
@@ -195,7 +199,7 @@ def run(zmatName, cgen, opt, charge, molname, workdir, debug):
 
          generateCMDFile('211', 'out')
 
-         subprocess.run('csh bosscmd',shell=True, capture_output=True, text=True, check=True)
+         subprocess.run(bossdir+'csh bosscmd',shell=True, capture_output=True, text=True, check=checkrun)
 
       shutil.copyfile('optzmat', zmatName)
 

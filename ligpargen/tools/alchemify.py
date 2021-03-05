@@ -156,6 +156,8 @@ def generateMoleculeAB_singleTopology(moleculeA, moleculeB, BtoAIndexCorresponde
 
     generateABbondingTerms_newImpropers(moleculeAB.atoms, moleculeAB.torsionsAdditional, moleculeB.torsionsAdditional, AtoBserialCorrespondency, BtoAserialCorrespondency, umatchBSerial)
 
+    # generateABbondingTerms_newImpropers(moleculeAB.atoms, moleculeAB.torsionsVariable + moleculeAB.torsionsAdditional, moleculeB.torsionsVariable + moleculeB.torsionsAdditional, AtoBserialCorrespondency, BtoAserialCorrespondency, umatchBSerial)
+
     generateGeometryVariations(moleculeAB)
     
     generateExcludedAtomLst(moleculeAB)
@@ -432,6 +434,8 @@ def generateABbondingTerms_newImpropers(atomsAB, bondingList_AB, bondingList_B, 
     """
 
     for bondB in bondingList_B:
+
+        if bondB.improper == False: continue
     
         umatchAtomInBondB = [True for atomBSerial in umatchBSerial if atomBSerial in [atom.serial for atom in bondB.getAtoms()]]
     
