@@ -167,7 +167,7 @@ class LigParGen():
 
         self.checkRequiredExecutables()
         
-        
+
         if self.ifile != None:  self.ifile = os.path.abspath(self.ifile)
         if self.ifileB != None: self.ifileB = os.path.abspath(self.ifileB)
 
@@ -192,6 +192,7 @@ class LigParGen():
         moleculeA = Molecule.fromBOSS(zmatName, outFile, pdbFile, moleculeA.shiftX, moleculeA.shiftY, moleculeA.shiftZ)
 
         self.updateOriginalAtomIndexesAndSerials(moleculeA, newIndexToOriginalIndex, atomsNameOriginal)
+        moleculeA.residueName = self.resname
 
         moleculeA_dual = moleculeA  # Fake possible dual topology for NAMD and others
         molnameAB_dual = molnameA

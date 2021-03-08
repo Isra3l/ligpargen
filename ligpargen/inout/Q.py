@@ -274,7 +274,7 @@ def writeLIB(molecule, libFile):
     with open(libFile,'w') as ofile:
 
         ofile.write(headerLIB)
-        ofile.write('{'+molecule.atoms[0].resname+'}\n')
+        ofile.write('{'+molecule.residueName+'}\n')
         ofile.write('[atoms]\n')
 
         atomsToWrite = sorted([atom for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]], key = lambda x: x.serialOriginal)
@@ -573,7 +573,7 @@ def writePDB(molecule, pdbFile):
 
             atomOriginalOrder = molecule.atoms[atom.serialOriginal -1]
 
-            ofile.write('ATOM%7d%5s%4s%6d%12.3f%8.3f%8.3f  1.00  0.00%12s  \n' % (i, atomOriginalOrder.nameOriginal.upper(), atomOriginalOrder.resname,
+            ofile.write('ATOM%7d%5s%4s%6d%12.3f%8.3f%8.3f  1.00  0.00%12s  \n' % (i, atomOriginalOrder.nameOriginal.upper(), molecule.residueName,
                         1, atomOriginalOrder.x + molecule.shiftX, atomOriginalOrder.y + molecule.shiftY, atomOriginalOrder.z + molecule.shiftZ,
                         atomOriginalOrder.element))
 

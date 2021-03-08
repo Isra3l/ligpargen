@@ -27,7 +27,7 @@ headerGRO = 'Generated with LigParGen (israel.cabezadevaca@yale.edu)\n'
 kcalToKj = 4.184
 
 
-def printAtom( serial, atom, alchemicalTransformation):
+def printAtom( serial, molecule, atom, alchemicalTransformation):
     """Generate atom line   
 
     Parameters
@@ -47,10 +47,10 @@ def printAtom( serial, atom, alchemicalTransformation):
 
     if alchemicalTransformation:
         line = ' %5d %10s %6d %6s %5s %6d %10.4f %10.4f%11s%11.4f%11.4f \n' % (serial, atom.type_gmx, 1, 
-        atom.resname, atom.nameOriginal, 1, atom.charge, atom.mass, atom.type_gmx_B, atom.charge_B, atom.mass_B)
+        molecule.residueName, atom.nameOriginal, 1, atom.charge, atom.mass, atom.type_gmx_B, atom.charge_B, atom.mass_B)
     else:
         line = ' %5d %10s %6d %6s %5s %6d %10.4f %10.4f \n' % (serial, atom.type_gmx, 1, 
-        atom.resname, atom.nameOriginal, 1, atom.charge, atom.mass)
+        molecule.residueName, atom.nameOriginal, 1, atom.charge, atom.mass)
 
     return line
 
@@ -347,7 +347,7 @@ c2      c3       c4       c5      c0_B       c1_B      c2_B      c3_B       c4_B
                 ofile.write(printAtomType(atom, alchemicalTransformation))
 
 
-        ofile.write(remarks['molType'] % molecule.atoms[0].resname)
+        ofile.write(remarks['molType'] % molecule.residueName)
 
         ofile.write(remarks['atoms'])
 
@@ -355,7 +355,7 @@ c2      c3       c4       c5      c0_B       c1_B      c2_B      c3_B       c4_B
 
         for serial, atomOriginalOrder in enumerate(atomsToWrite, start = 1):
 
-            ofile.write(printAtom(serial, atomOriginalOrder, alchemicalTransformation))
+            ofile.write(printAtom(serial, molecule, atomOriginalOrder, alchemicalTransformation))
 
         ofile.write(remarks['bonds'])
 
@@ -409,7 +409,7 @@ def writeGRO(molecule, groFile):
 
         for i, atomOriginalOrder in enumerate(atomsToWrite, start = 1):
 
-            ofile.write('%5d%-5s%5s%5d%8.3f%8.3f%8.3f\n' % (1, atomOriginalOrder.resname, atomOriginalOrder.nameOriginal, i, 0.1*(atomOriginalOrder.x + molecule.shiftX), 
+            ofile.write('%5d%-5s%5s%5d%8.3f%8.3f%8.3f\n' % (1, molecule.residueName, atomOriginalOrder.nameOriginal, i, 0.1*(atomOriginalOrder.x + molecule.shiftX), 
                 0.1*(atomOriginalOrder.y + molecule.shiftY), 0.1*(atomOriginalOrder.z + molecule.shiftZ)))
 
         ofile.write('%10.5f%10.5f%10.5f\n' % (10.0000, 10.0000, 10.0000))

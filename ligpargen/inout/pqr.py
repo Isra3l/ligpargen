@@ -30,7 +30,7 @@ def writePQR(molecule, pqrFile):
 
         for i, atom in enumerate(atomsToWrite, start =1):
 
-            ofile.write('ATOM  %5d %4s %3s  %4d    %8.3f%8.3f%8.3f%8.4f%7.4f\n' % (i, atom.nameOriginal, atom.resname, 1,atom.x + molecule.shiftX, 
+            ofile.write('ATOM  %5d %4s %3s  %4d    %8.3f%8.3f%8.3f%8.4f%7.4f\n' % (i, atom.nameOriginal, molecule.residueName, 1,atom.x + molecule.shiftX, 
                 atom.y + molecule.shiftY, atom.z + molecule.shiftZ, atom.charge, (atom.sigma/2.0)*sigmaFactor))
 
 

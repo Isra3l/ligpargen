@@ -253,7 +253,7 @@ def guessResname(residueNameOriginal, userResname):
 
     else: logger.info('RESIDUE NAME USED: '+ userResname)
 
-    return userResname
+    return userResname[:3]
 
 
 def guessMoleculeName(ifileName, userMolName, label):

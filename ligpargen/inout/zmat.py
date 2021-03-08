@@ -66,7 +66,7 @@ def write(molecule, molname, workdir, writeAtomParameters = False):
             
             ofile.write('%4d %-3s%5d%5d%5d%12.6f%4d%12.6f%4d%12.6f%4s%5d\n' % (int(atom.serial), atom.name, \
                 int(atom.typeA), int(atom.typeB), atom.parent,atom.r, atom.parentParent, atom.angle, atom.parentParentParent, \
-                atom.dihedral, atom.resname, atom.resnum))
+                atom.dihedral, molecule.residueName, atom.resnum))
 
         ofile.write('                    Geometry Variations follow    (2I4,F12.6)\n')
 

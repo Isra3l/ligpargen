@@ -153,7 +153,7 @@ def writeTOP(molecule, topFile):
 
             ofile.write('MASS %3s %5.4f\n' %(atom.type_q, atom.mass))
 
-        ofile.write('\nRESIdue %5s\n' % molecule.atoms[0].resname)
+        ofile.write('\nRESIdue %5s\n' % molecule.residueName)
 
         ofile.write('\nGROUP\n')
 

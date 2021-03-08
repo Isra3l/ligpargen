@@ -102,6 +102,8 @@ class Molecule(object):
         self.shiftY = shifY # To restore initial coordinates
         self.shiftZ = shifZ # To restore initial coordinates
 
+        self.residueName = 'MOL'
+
 
     @classmethod
     def fromBOSS(cls, zmatFile, outfile, pdbfile, shifX=0.0, shifY=0.0, shiftZ=0.0):

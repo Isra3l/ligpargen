@@ -162,7 +162,7 @@ def writeXML(molecule, xmlFile):
         ofile.write('</AtomTypes>\n')
 
         ofile.write("<Residues>\n")
-        ofile.write("<Residue name=\"%s\">\n" % molecule.atoms[0].resname)
+        ofile.write("<Residue name=\"%s\">\n" % molecule.residueName)
 
         for i, atom in enumerate(atomsToWrite, start =1):
 
@@ -233,7 +233,7 @@ def writePDB(molecule, pdbFile):
 
         for i, atom in enumerate(atomsToWrite, start =1):
 
-            ofile.write('ATOM%7d%5s%4s%6d%12.3f%8.3f%8.3f  1.00  0.00%12s  \n' % (i, atom.nameOriginal, atom.resname, 1,atom.x + molecule.shiftX, 
+            ofile.write('ATOM%7d%5s%4s%6d%12.3f%8.3f%8.3f  1.00  0.00%12s  \n' % (i, atom.nameOriginal, molecule.residueName, 1,atom.x + molecule.shiftX, 
                 atom.y + molecule.shiftY, atom.z + molecule.shiftZ, atom.element))
 
 
