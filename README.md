@@ -56,9 +56,10 @@ or
     conda activate py37  
 **Optional TIP:** add this line to your .bashrc/.cshrc,....
 
-4- Install rdkit in py37 enviroment
+4- Install rdkit and openbabel in py37 enviroment
 
     conda install -c rdkit rdkit
+    conda install -c conda-forge openbabel
 
 5 - Download and install LigParGen
 
