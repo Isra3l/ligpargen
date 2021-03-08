@@ -166,7 +166,7 @@ class LigParGen():
         self.alchemicalTransformation = self.checkArguments()
 
         self.checkRequiredExecutables()
-
+        
         
         if self.ifile != None:  self.ifile = os.path.abspath(self.ifile)
         if self.ifileB != None: self.ifileB = os.path.abspath(self.ifileB)
@@ -197,6 +197,7 @@ class LigParGen():
         molnameAB_dual = molnameA
 
         if not self.debug:
+
             os.remove(outFile)
             os.remove(pdbFile)
 

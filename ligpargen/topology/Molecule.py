@@ -390,8 +390,9 @@ class Molecule(object):
             if atomTypeNumber=='-1': 
                 
                 x = 0.0
-                if i==1: x = 1.0
+                if i==1 or i==2: x = 1.0
                 y = 0.0
+                if i==2: y = 1.0
                 z = 0.0
 
                 A = Atom.fromZmat(line, 0, 'DU', 

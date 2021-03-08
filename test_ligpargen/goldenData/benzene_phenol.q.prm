@@ -29,7 +29,7 @@ H811      69.5797      69.5797       4.9095      49.2003       3.4715       1.00
 D812       0.0000       0.0000       0.0000       0.0000       0.0000       1.0080 !   MOL
 
 [bonds]
-*iaci--iacj--force.c--dist.
+!*iaci--iacj--force.c--dist.
 C801       C800            938.0     1.400
 C802       C800            938.0     1.400
 C803       C802            938.0     1.400
@@ -45,7 +45,7 @@ D812       H810           1106.0     0.300
 C805       C801            938.0     1.400
 
 [angles]
-*iaci--iacj--iack--force.c--angle.
+!*iaci--iacj--iack--force.c--angle.
 C802       C800       C801         126.00     120.000
 C803       C802       C800         126.00     120.000
 C804       C803       C802         126.00     120.000
@@ -67,7 +67,7 @@ C801       C805       H808          70.00     120.000
 C804       C805       C801         126.00     120.000
 
 [torsions]
-*iaci--iacj--iack--iackl--force.c--minima--phase--path.
+!*iaci--iacj--iack--iackl--force.c--minima--phase--path.
 C803       C802       C800       C801       0.000     -1.000     0.000     1.000
 C803       C802       C800       C801       3.625     -2.000   180.000     1.000
 C803       C802       C800       C801       0.000     -3.000     0.000     1.000
@@ -175,7 +175,7 @@ D812       H810       C800       C802       0.000      4.000   180.000     1.000
 !  X    X    X    X    0.00000 1 0.000000 1 ! WILD CARD FOR MISSING TORSION PARAMETERS
 
 [impropers]
-*iaci--iacj--iack--iackl--force.c--phase.
+!*iaci--iacj--iack--iackl--force.c--phase.
 C801       C800       C802       H810            2.500   180.000
 C800       C801       C805       H809            2.500   180.000
 C800       C802       C803       H811            2.500   180.000

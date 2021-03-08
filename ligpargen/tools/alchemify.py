@@ -224,11 +224,11 @@ def updateCartesianCoordinates(moleculeAB):
         Molecule
     """
 
-    XYZ = [rdGeometry.Point3D(atom.x, atom.y, atom.z) for atom in moleculeAB.atoms]
-    neighbors = [[atom.parent, atom.parentParent, atom.parentParentParent]for atom in moleculeAB.atoms]
+    # XYZ = [rdGeometry.Point3D(atom.x, atom.y, atom.z) for atom in moleculeAB.atoms]
+    # neighbors = [[atom.parent, atom.parentParent, atom.parentParentParent]for atom in moleculeAB.atoms]
 
-    for atom in moleculeAB.atoms[moleculeAB.numberOfStructuralDummyAtoms+1:]:
-    
+    for atom in moleculeAB.atoms[moleculeAB.numberOfStructuralDummyAtoms:]:
+
         posAtom_r = atom.r
         posAtom_angle = math.radians(atom.angle)
         posAtom_dihedral = math.radians(atom.dihedral)

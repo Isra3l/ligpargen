@@ -230,17 +230,17 @@ def writePRM(molecule, prmFile):
             qatomtypeInMoleculeLst.append(atom.type_q)
 
 
-        ofile.write('\n[bonds]\n*iaci--iacj--force.c--dist.\n')
+        ofile.write('\n[bonds]\n!*iaci--iacj--force.c--dist.\n')
 
         for bond in molecule.bondsVariable: ofile.write(printBond(bond))
         for bond in molecule.bondsAdditional: ofile.write(printBond(bond))
 
-        ofile.write('\n[angles]\n*iaci--iacj--iack--force.c--angle.\n')
+        ofile.write('\n[angles]\n!*iaci--iacj--iack--force.c--angle.\n')
 
         for angle in molecule.anglesVariable: ofile.write(printAngle(angle))
         for angle in molecule.anglesAdditional: ofile.write(printAngle(angle))
 
-        ofile.write('\n[torsions]\n*iaci--iacj--iack--iackl--force.c--minima--phase--path.\n')
+        ofile.write('\n[torsions]\n!*iaci--iacj--iack--iackl--force.c--minima--phase--path.\n')
 
         for dihedral in molecule.torsionsVariable: 
             if dihedral.improper==False: ofile.write(printDihedral(dihedral))
@@ -249,7 +249,7 @@ def writePRM(molecule, prmFile):
 
         ofile.write('!  X    X    X    X    0.00000 1 0.000000 1 ! WILD CARD FOR MISSING TORSION PARAMETERS\n')
 
-        ofile.write('\n[impropers]\n*iaci--iacj--iack--iackl--force.c--phase.\n')
+        ofile.write('\n[impropers]\n!*iaci--iacj--iack--iackl--force.c--phase.\n')
 
         for dihedral in molecule.torsionsVariable: 
             if dihedral.improper==True: ofile.write(printImproperDihedral(dihedral))
