@@ -484,8 +484,10 @@ def fixNonIntegerCharge(molecule):
 
     diff = np.round(sum) - sum
 
-    if diff>1e-7: molecule.atoms[-1].charge += diff
-    if diff<-1e-7: molecule.atoms[-1].charge -= diff
+    if diff>1e-7 or diff<-1e-7: molecule.atoms[-1].charge += diff
+
+    sum = np.sum([atom.charge for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]])
+
     
 
 def buildProperOrderAtomIndexLst(molecule, molname, workdir):
