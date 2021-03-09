@@ -73,7 +73,9 @@ def alignMolecules(molA, molB, workdir, debug):
         Chem.MolToPDBFile(molA, os.path.join(workdir,'molecule_A.pdb'))
         Chem.MolToPDBFile(molB, os.path.join(workdir,'molecule_B.pdb'))
 
-    AllChem.AlignMol(molB, molA, atomMap=list(zip(matchB, matchA)))
+    weight = [1.0 if atom.GetSymbol() != 'H' else 0.01 for atom in molA.GetAtoms() ] # heavyatoms more important
+
+    AllChem.AlignMol(molB, molA, atomMap=list(zip(matchB, matchA)), weights=weight)
 
     if debug: 
         
