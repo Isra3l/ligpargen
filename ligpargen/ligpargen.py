@@ -191,6 +191,8 @@ class LigParGen():
 
         moleculeA = Molecule.fromBOSS(zmatName, outFile, pdbFile, moleculeA.shiftX, moleculeA.shiftY, moleculeA.shiftZ)
 
+        utilities.fixNonIntegerCharge(moleculeA)
+
         self.updateOriginalAtomIndexesAndSerials(moleculeA, newIndexToOriginalIndex, atomsNameOriginal)
         moleculeA.residueName = self.resname
 
@@ -218,6 +220,8 @@ class LigParGen():
                                             self.workdir, self.debug)
 
             moleculeB = Molecule.fromBOSS(zmatNameB, outFileB, pdbFileB, moleculeB.shiftX, moleculeB.shiftY, moleculeB.shiftZ)
+
+            utilities.fixNonIntegerCharge(moleculeB)
 
             self.updateOriginalAtomIndexesAndSerials(moleculeB, newIndexToOriginalIndexB, atomsNameOriginalB)
 

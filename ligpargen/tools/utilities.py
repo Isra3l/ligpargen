@@ -478,6 +478,16 @@ def isAtomOrderWrong(moleculeA):
     else: return False
 
 
+def fixNonIntegerCharge(molecule):
+
+    sum = np.sum([atom.charge for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]])
+
+    diff = np.round(sum) - sum
+
+    if diff>1e-7: molecule.atoms[-1].charge += diff
+    if diff<-1e-7: molecule.atoms[-1].charge -= diff
+    
+
 def buildProperOrderAtomIndexLst(molecule, molname, workdir):
     """
     Generate atoms index list using the closest atom the centre of mass as the first one and considering
