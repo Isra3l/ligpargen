@@ -277,11 +277,24 @@ def writeLIB(molecule, libFile):
         ofile.write('{'+molecule.residueName+'}\n')
         ofile.write('[atoms]\n')
 
-        atomsToWrite = sorted([atom for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]], key = lambda x: x.serialOriginal)
-
-        for i, atomOriginalOrder in enumerate(atomsToWrite, start = 1):
+        for i, atom in enumerate(molecule.atoms[molecule.numberOfStructuralDummyAtoms:], start=1):
+    
+            atomOriginalOrder = molecule.atoms[atom.serialOriginal -1]
 
             ofile.write('%4d   %-10s%-10s%9.4f\n' %(i, atomOriginalOrder.nameOriginal.upper(), atomOriginalOrder.type_q, atomOriginalOrder.charge))
+
+
+            # ofile.write('ATOM%7d%5s%4s%6d%12.3f%8.3f%8.3f  1.00  0.00%12s  \n' % (i, atomOriginalOrder.nameOriginal.upper(), molecule.residueName,
+            #             1, atomOriginalOrder.x + molecule.shiftX, atomOriginalOrder.y + molecule.shiftY, atomOriginalOrder.z + molecule.shiftZ,
+            #             atomOriginalOrder.element))
+
+
+
+        # atomsToWrite = sorted([atom for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]], key = lambda x: x.serialOriginal)
+
+        # for i, atomOriginalOrder in enumerate(atomsToWrite, start = 1):
+
+        #     ofile.write('%4d   %-10s%-10s%9.4f\n' %(i, atomOriginalOrder.nameOriginal.upper(), atomOriginalOrder.type_q, atomOriginalOrder.charge))
 
         ofile.write('\n[bonds]\n')
 
@@ -317,17 +330,35 @@ def writeFEP(molecule, fepFile):
         FEP file name
     """
 
+    serial2neworder = {}
+
+    for i, atom in enumerate(molecule.atoms[molecule.numberOfStructuralDummyAtoms:], start=1):
+    
+        # atomOriginalOrder = molecule.atoms[atom.serialOriginal -1]
+
+        # print(atom.serialOriginal)
+
+        serial2neworder[atom.serialOriginal] = i
+
+        # ofile.write('%4d   %-10s%-10s%9.4f\n' %(i, atomOriginalOrder.nameOriginal.upper(), atomOriginalOrder.type_q, atomOriginalOrder.charge))
+
+    # print(serial2neworder)
+
     with open(fepFile,'w') as ofile:
 
         ofile.write(headerFEP % molecule.atoms[0].resname.upper())
 
         ofile.write('[atoms]\n')
 
-        atomsToWrite = sorted([atom for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]], key = lambda x: x.serialOriginal)
+        # atomsToWrite = sorted([atom for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]], key = lambda x: x.serialOriginal)
 
-        for i, atomOriginalOrder in enumerate(atomsToWrite, start = 1):
+        # for i, atomOriginalOrder in enumerate(atomsToWrite, start = 1):
 
-            ofile.write('%s %5d\n' % (str(i).ljust(3),atomOriginalOrder.serial-molecule.numberOfStructuralDummyAtoms))
+        #     ofile.write('%s %5d\n' % (str(i).ljust(3),atomOriginalOrder.serial-molecule.numberOfStructuralDummyAtoms))
+
+        for i in range(len(molecule.atoms[molecule.numberOfStructuralDummyAtoms:])):
+
+            ofile.write('%s %5d\n' % (str(i+1).ljust(3),i+1))
 
 
         ofile.write('\n[PBC]\n')
@@ -338,8 +369,19 @@ def writeFEP(molecule, fepFile):
 
         ofile.write('\n[change_charges]\n')
 
-        for i, atom in enumerate(molecule.atoms[molecule.numberOfStructuralDummyAtoms:], start=1): 
-            ofile.write('%s %10.4f %10.4f\n' % (str(i).ljust(3),atom.charge, atom.charge_B))
+        for i, atom in enumerate(molecule.atoms[molecule.numberOfStructuralDummyAtoms:], start=1):
+    
+            atomOriginalOrder = molecule.atoms[atom.serialOriginal -1]
+
+            ofile.write('%s %10.4f %10.4f\n' % (str(i).ljust(3),atomOriginalOrder.charge, atomOriginalOrder.charge_B))
+
+            # ofile.write('ATOM%7d%5s%4s%6d%12.3f%8.3f%8.3f  1.00  0.00%12s  \n' % (i, atomOriginalOrder.nameOriginal.upper(), molecule.residueName,
+            #             1, atomOriginalOrder.x + molecule.shiftX, atomOriginalOrder.y + molecule.shiftY, atomOriginalOrder.z + molecule.shiftZ,
+            #             atomOriginalOrder.element))
+
+
+        # for i, atom in enumerate(molecule.atoms[molecule.numberOfStructuralDummyAtoms:], start=1): 
+        #     ofile.write('%s %10.4f %10.4f\n' % (str(i).ljust(3),atom.charge, atom.charge_B))
 
 
         ofile.write('\n[atom_types]\n')
@@ -365,8 +407,14 @@ def writeFEP(molecule, fepFile):
             
         ofile.write('\n[change_atoms]\n')
 
-        for i, atom in enumerate(molecule.atoms[molecule.numberOfStructuralDummyAtoms:], start=1): 
-            ofile.write('%s %10s %10s\n' % (str(i).ljust(3),atom.type_q, atom.type_q_B))
+        for i, atom in enumerate(molecule.atoms[molecule.numberOfStructuralDummyAtoms:], start=1):
+        
+            atomOriginalOrder = molecule.atoms[atom.serialOriginal -1]
+
+            ofile.write('%s %10s %10s\n' % (str(i).ljust(3),atomOriginalOrder.type_q, atomOriginalOrder.type_q_B))
+
+        # for i, atom in enumerate(molecule.atoms[molecule.numberOfStructuralDummyAtoms:], start=1): 
+        #     ofile.write('%s %10s %10s\n' % (str(i).ljust(3),atom.type_q, atom.type_q_B))
 
 
         if len(molecule.excludedListDict)!=0: ofile.write('\n[excluded pairs]\n')
@@ -378,7 +426,7 @@ def writeFEP(molecule, fepFile):
 
         totalBonds = molecule.bondsVariable + molecule.bondsAdditional
 
-        bondTypes, bondChange = generateChangeList(totalBonds, molecule.numberOfStructuralDummyAtoms)
+        bondTypes, bondChange = generateChangeList(totalBonds, serial2neworder, molecule.numberOfStructuralDummyAtoms)
 
         if len(bondTypes)!=0:
 
@@ -393,7 +441,7 @@ def writeFEP(molecule, fepFile):
 
         totalAngles = molecule.anglesVariable + molecule.anglesAdditional
 
-        angleTypes, angleChange = generateChangeList(totalAngles, molecule.numberOfStructuralDummyAtoms)
+        angleTypes, angleChange = generateChangeList(totalAngles, serial2neworder, molecule.numberOfStructuralDummyAtoms)
 
         if len(angleTypes)!=0:
 
@@ -407,7 +455,7 @@ def writeFEP(molecule, fepFile):
 
         totalTorsions = [torsion for torsion in molecule.torsionsVariable + molecule.torsionsAdditional if not torsion.improper] 
 
-        torsionTypes, torsionChange = generateChangeList(totalTorsions, molecule.numberOfStructuralDummyAtoms)
+        torsionTypes, torsionChange = generateChangeList(totalTorsions, serial2neworder, molecule.numberOfStructuralDummyAtoms)
 
         if len(torsionTypes)!=0:
 
@@ -434,7 +482,7 @@ def writeFEP(molecule, fepFile):
 
         totalTorsionsImproper = [torsion for torsion in molecule.torsionsVariable + molecule.torsionsAdditional if torsion.improper] 
 
-        torsionTypes, torsionChange = generateChangeList(totalTorsionsImproper, molecule.numberOfStructuralDummyAtoms)
+        torsionTypes, torsionChange = generateChangeList(totalTorsionsImproper, serial2neworder, molecule.numberOfStructuralDummyAtoms)
 
         if len(torsionTypes)!=0:
 
@@ -448,13 +496,15 @@ def writeFEP(molecule, fepFile):
 
 
 
-def generateChangeList(bondedTerms, numberOfStructuralDummyAtoms):
+def generateChangeList(bondedTerms, serial2neworder, numberOfStructuralDummyAtoms):
 
     termTypes = []
     termChange = []
 
     tmpType = []
     tmpChanges = []
+
+    # atomOriginalOrder = molecule.atoms[atom.serialOriginal -1]
 
     if len(bondedTerms[0].getAtoms())==2:
 
@@ -465,7 +515,9 @@ def generateChangeList(bondedTerms, numberOfStructuralDummyAtoms):
                 tmpType.append((term.K0, term.R0))
                 tmpType.append((term.K0_B, term.R0_B))
 
-                tmpChanges.append([term.atomA.serial-numberOfStructuralDummyAtoms, term.atomB.serial-numberOfStructuralDummyAtoms, term.K0, term.R0, term.K0_B, term.R0_B])
+                # tmpChanges.append([term.atomA.serialOriginal-numberOfStructuralDummyAtoms, term.atomB.serialOriginal-numberOfStructuralDummyAtoms, term.K0, term.R0, term.K0_B, term.R0_B])
+
+                tmpChanges.append([serial2neworder[term.atomA.serial], serial2neworder[term.atomB.serial], term.K0, term.R0, term.K0_B, term.R0_B])
 
         tmpType = list(dict.fromkeys(tmpType))
 
@@ -487,8 +539,12 @@ def generateChangeList(bondedTerms, numberOfStructuralDummyAtoms):
                 tmpType.append((term.K0, term.angle0))
                 tmpType.append((term.K0_B, term.angle0_B))
 
-                tmpChanges.append([term.atomA.serial-numberOfStructuralDummyAtoms, term.atomB.serial-numberOfStructuralDummyAtoms, 
-                    term.atomC.serial-numberOfStructuralDummyAtoms, term.K0, term.angle0, term.K0_B, term.angle0_B])
+                # tmpChanges.append([term.atomA.serial-numberOfStructuralDummyAtoms, term.atomB.serial-numberOfStructuralDummyAtoms, 
+                #     term.atomC.serial-numberOfStructuralDummyAtoms, term.K0, term.angle0, term.K0_B, term.angle0_B])
+
+                tmpChanges.append([serial2neworder[term.atomA.serial], serial2neworder[term.atomB.serial], 
+                    serial2neworder[term.atomC.serial], term.K0, term.angle0, term.K0_B, term.angle0_B])
+
 
         tmpType = list(dict.fromkeys(tmpType))
 
@@ -513,8 +569,11 @@ def generateChangeList(bondedTerms, numberOfStructuralDummyAtoms):
                     tmpType.append((term.V2))
                     tmpType.append((term.V2_B))
 
-                    tmpChanges.append([term.atomA.serial-numberOfStructuralDummyAtoms, term.atomB.serial-numberOfStructuralDummyAtoms,
-                        term.atomC.serial-numberOfStructuralDummyAtoms,  term.atomD.serial-numberOfStructuralDummyAtoms, term.V2, term.V2_B])
+                    # tmpChanges.append([term.atomA.serial-numberOfStructuralDummyAtoms, term.atomB.serial-numberOfStructuralDummyAtoms,
+                    #     term.atomC.serial-numberOfStructuralDummyAtoms,  term.atomD.serial-numberOfStructuralDummyAtoms, term.V2, term.V2_B])
+
+                    tmpChanges.append([serial2neworder[term.atomA.serial], serial2neworder[term.atomB.serial],
+                        serial2neworder[term.atomC.serial],  serial2neworder[term.atomD.serial], term.V2, term.V2_B])
 
 
             tmpType = list(dict.fromkeys(tmpType))
@@ -537,10 +596,13 @@ def generateChangeList(bondedTerms, numberOfStructuralDummyAtoms):
                     tmpType.append((term.V1, term.V2, term.V3, term.V4))
                     tmpType.append((term.V1_B, term.V2_B, term.V3_B, term.V4_B))
 
-                    tmpChanges.append([term.atomA.serial-numberOfStructuralDummyAtoms, term.atomB.serial-numberOfStructuralDummyAtoms, 
-                    term.atomC.serial-numberOfStructuralDummyAtoms,  term.atomD.serial-numberOfStructuralDummyAtoms, term.V1, 
-                    term.V2, term.V3, term.V4, term.V1_B, term.V2_B, term.V3_B, term.V4_B])
+                    # tmpChanges.append([term.atomA.serial-numberOfStructuralDummyAtoms, term.atomB.serial-numberOfStructuralDummyAtoms, 
+                    # term.atomC.serial-numberOfStructuralDummyAtoms,  term.atomD.serial-numberOfStructuralDummyAtoms, term.V1, 
+                    # term.V2, term.V3, term.V4, term.V1_B, term.V2_B, term.V3_B, term.V4_B])
 
+                    tmpChanges.append([serial2neworder[term.atomA.serial], serial2neworder[term.atomB.serial], 
+                    serial2neworder[term.atomC.serial],  serial2neworder[term.atomD.serial], term.V1, 
+                    term.V2, term.V3, term.V4, term.V1_B, term.V2_B, term.V3_B, term.V4_B])
 
             tmpType = list(dict.fromkeys(tmpType))
 
