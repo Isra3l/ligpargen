@@ -157,7 +157,7 @@ def generateRDkitMolecule(ifile, smile, workdir, molname, debug = False):
 
             else:
 
-                logger.error('obale NOT found in the system')
+                logger.error('obabel NOT found in the system')
                 logger.error('Input file format CAN NOT be process: '+ ifile)
                 logger.error('Please install open BABEL in your system or provide an input in PDB or MOL file')
                 exit()

@@ -390,8 +390,10 @@ class LigParGen():
         Check is required executables are installed and accesible from the system
         """
 
-        babel = shutil.which("babel")
-        if babel==None: 
+        babel = shutil.which("obabel")
+
+        if babel==None:
+
             print("\n       ERROR!    Open Babel is not installed on your work station.\n")
             exit()
 
