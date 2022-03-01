@@ -157,7 +157,7 @@ def writeXML(molecule, xmlFile):
 
         for i, atom in enumerate(atomsToWrite, start =1):
 
-            ofile.write('<Type name=\"%s\" class\"%s\" element=\"%s\" mass=\"%0.3f\"/>\n' %(atom.type_gmx, atom.type_q, atom.element, atom.mass))
+            ofile.write('<Type name=\"%s\" class=\"%s\" element=\"%s\" mass=\"%0.3f\"/>\n' %(atom.type_gmx, atom.type_q, atom.element, atom.mass))
 
         ofile.write('</AtomTypes>\n')
 
@@ -166,7 +166,7 @@ def writeXML(molecule, xmlFile):
 
         for i, atom in enumerate(atomsToWrite, start =1):
 
-            ofile.write("<Atom name=\"%s\" type=\"%s\"/>\n" % (atom.nameOriginal, atom.type_gmx))
+            ofile.write("<Atom name=\"%s\" type=\"%s\"/>\n" % (atom.nameOriginal.replace(" ",""), atom.type_gmx))
 
         shift = molecule.numberOfStructuralDummyAtoms + 1
         
@@ -205,7 +205,7 @@ def writeXML(molecule, xmlFile):
 
         ofile.write('</PeriodicTorsionForce>\n')
 
-        ofile.write("<NonbondedForce coulomb14scale=\"0.5\" lj14scale=\"0.5\"/>\n")
+        ofile.write("<NonbondedForce coulomb14scale=\"0.5\" lj14scale=\"0.5\">\n")
 
         for i, atom in enumerate(atomsToWrite, start =1):
     
