@@ -468,7 +468,7 @@ class Molecule(object):
         atomsLinesPDB = [line for line in atomsLinesPDB if 'ATOM' in line or 'HETATM' in line]
 
         if len(atomsParameters)==0 or len(atomsLinesPDB) ==0:
-            print('ERROR: Final Non-Bonded Parameters NOT found in zmat')
+            logger.error('ERROR: Final Non-Bonded Parameters NOT found in zmat')
             sys.exit() 
 
         atoms, numberOfStructuralDummyAtoms = cls._generateAtoms(atomsLines, atomsParameters, atomsLinesPDB)
@@ -507,12 +507,13 @@ class Molecule(object):
 
             bondsFile = re.search(r'Atom1   Atom2      R0           K0         R1(.*?)Angle Bending Parameters', 
                 outfileData, re.DOTALL).group().splitlines()[1:-1]
-            bondsFile = [bond[:40].split() for bond in bondsFile if not len(bond)==0]
+            bondsFile = [bond[:40].split() for bond in bondsFile if not len(bond)==0 and 
+                not 'Missing' in bond and 
+                not 'Synonym' in bond]
 
         except:
 
             bondsFile = []
-
 
         bondsVariable = []
         bondsAdditional = []
@@ -562,7 +563,9 @@ class Molecule(object):
             
             anglesFile = re.search(r'Atom1 Atom2 Atom3    A0       K0       A1(.*?)(Quantum|                    Dipole Moment|SOLUTE SEEMS)', 
                 outfileData, re.DOTALL).group().splitlines()[1:-1]
-            anglesFile = [angle[:39].split() for angle in anglesFile if not len(angle)==0]
+            anglesFile = [angle[:39].split() for angle in anglesFile if not len(angle)==0 and
+                not 'Missing' in angle and 
+                not 'Synonym' in angle]
 
         except:
 
