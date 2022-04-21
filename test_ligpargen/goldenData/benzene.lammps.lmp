@@ -6,7 +6,7 @@ LAMMPS data file generated with LigParGen (israel.cabezadevaca@yale.edu)
       24 dihedrals
        6 impropers
 
-      15 atom types
+      12 atom types
       12 bond types
       18 angle types
       24 dihedral types
@@ -15,7 +15,6 @@ LAMMPS data file generated with LigParGen (israel.cabezadevaca@yale.edu)
    -2.338000    47.662000 xlo xhi
    -2.402000    47.598000 ylo yhi
    -0.076000    49.924000 zlo zhi
-
 
 Masses
 

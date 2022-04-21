@@ -43,17 +43,17 @@ def writeLMP(molecule, lmpFile):
         ofile.write('%8d bonds\n' % len(bonds))
         ofile.write('%8d angles\n' % len(angles))
         ofile.write('%8d dihedrals\n' % len(propers))
-        ofile.write('%8d impropers\n\n' % len(impropers))
+        if len(impropers) > 0: ofile.write('%8d impropers\n\n' % len(impropers))
 
-        ofile.write('%8d atom types\n' % len(molecule.atoms))
+        ofile.write('%8d atom types\n' % len(molecule.atoms[molecule.numberOfStructuralDummyAtoms:]))
         ofile.write('%8d bond types\n' % len(bonds))
         ofile.write('%8d angle types\n' % len(angles))
         ofile.write('%8d dihedral types\n' % len(propers))
-        ofile.write('%8d improper types\n\n' % len(impropers))
+        if len(impropers) > 0: ofile.write('%8d improper types\n\n' % len(impropers))
 
         ofile.write('%12.6f %12.6f xlo xhi\n' % (min(xlist), min(xlist) + max_mol_size))
         ofile.write('%12.6f %12.6f ylo yhi\n' % (min(ylist), min(ylist) + max_mol_size))
-        ofile.write('%12.6f %12.6f zlo zhi\n\n' % (min(zlist), min(zlist) + max_mol_size))
+        ofile.write('%12.6f %12.6f zlo zhi\n' % (min(zlist), min(zlist) + max_mol_size))
 
 
         ofile.write('\nMasses\n\n')
@@ -83,10 +83,12 @@ def writeLMP(molecule, lmpFile):
         for i, torsion in enumerate(propers, start=1): 
             ofile.write('%8d%11.3f%11.3f%11.3f%11.3f\n' %( i, torsion.V1, torsion.V2, torsion.V3, torsion.V4))
 
-        ofile.write('\nImproper Coeffs\n\n')
+        if len(impropers) >0:
 
-        for i, torsion in enumerate(impropers, start=1): 
-            ofile.write('%8d%11.3f%8d%8d\n' %( i, torsion.V2/2.0, -1, 2.0)) #TODO: check if V2 or V2/2
+            ofile.write('\nImproper Coeffs\n\n')
+
+            for i, torsion in enumerate(impropers, start=1): 
+                ofile.write('%8d%11.3f%8d%8d\n' %( i, torsion.V2/2.0, -1, 2.0)) #TODO: check if V2 or V2/2
 
         ofile.write('\nAtoms\n\n')
 
@@ -111,11 +113,13 @@ def writeLMP(molecule, lmpFile):
             ofile.write('%6d %6d %6d %6d %6d %6d\n' %( i, i, torsion.atomA.serialOriginal - shift, torsion.atomB.serialOriginal - shift, \
                 torsion.atomC.serialOriginal - shift, torsion.atomD.serialOriginal - shift))
 
-        ofile.write('\nImpropers\n\n')
+        if len(impropers) > 0: 
 
-        for i, torsion in enumerate(impropers, start=1): 
-            ofile.write('%6d %6d %6d %6d %6d %6d\n' %( i, i, torsion.atomA.serialOriginal - shift, torsion.atomB.serialOriginal - shift, \
-                torsion.atomC.serialOriginal - shift, torsion.atomD.serialOriginal - shift))
+            ofile.write('\nImpropers\n\n')
+
+            for i, torsion in enumerate(impropers, start=1): 
+                ofile.write('%6d %6d %6d %6d %6d %6d\n' %( i, i, torsion.atomA.serialOriginal - shift, torsion.atomB.serialOriginal - shift, \
+                    torsion.atomC.serialOriginal - shift, torsion.atomD.serialOriginal - shift))
 
         ofile.write('\n\n')
 
