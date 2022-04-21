@@ -128,7 +128,22 @@ def generateRDkitMolecule(ifile, smile, workdir, molname, debug = False):
 
         molecule = Chem.MolFromSmiles(smile)
         molecule = Chem.AddHs(molecule)
-        AllChem.EmbedMolecule(molecule,randomSeed=0xf00d)
+        done = AllChem.EmbedMolecule(molecule, randomSeed=0xf00d)
+
+        if done == -1:
+
+            logger.warning(f'RDkit FAILS to generate the coordinates from the SMILES for {smile}. Trying new RDkit approach...')
+
+            ps = AllChem.ETKDGv2() 
+            ps.useRandomCoords = True 
+            done = AllChem.EmbedMolecule(molecule, ps)
+
+            if done == -1:
+
+                logger.error(f'RDkit FAILS to generate 3D coordinates for your molecule: {smile}')
+                exit()
+
+            logger.info(f'3D coordinates succsfully generated with RDkit')
 
     else:
 
@@ -144,7 +159,11 @@ def generateRDkitMolecule(ifile, smile, workdir, molname, debug = False):
 
             atomsNameOriginal, residueNameOriginal = getAtomsNameAndMolFromMOL2(ifile)
 
-        elif ifile.lower().endswith('.mol'): molecule = Chem.MolFromMolFile(ifile,removeHs=False)
+        elif ifile.lower().endswith('.mol'): 
+            
+            molecule = Chem.MolFromMolFile(ifile,removeHs=False)
+            
+        
         else:
 
             babel = shutil.which("obabel")
@@ -162,6 +181,8 @@ def generateRDkitMolecule(ifile, smile, workdir, molname, debug = False):
                 logger.error('Please install open BABEL in your system or provide an input in PDB or MOL file')
                 exit()
     
+    Chem.MolToPDBFile(molecule, sfile)
+
     atomsIndexLstWithRightOrder = buildProperOrderAtomIndexLst(molecule, molname, workdir)
 
     molecule, newIndexToOriginalIndex = generateNewMoleculeWithProperOrder(molecule, atomsIndexLstWithRightOrder)

@@ -39,11 +39,11 @@ def writeLMP(molecule, lmpFile):
         max_mol_size = 50
 
 
-        ofile.write('%8d atoms\n' % len(molecule.atoms))
+        ofile.write('%8d atoms\n' % len(molecule.atoms[molecule.numberOfStructuralDummyAtoms:]))
         ofile.write('%8d bonds\n' % len(bonds))
-        ofile.write('%8d bonds\n' % len(angles))
-        ofile.write('%8d bonds\n' % len(propers))
-        ofile.write('%8d bonds\n\n' % len(impropers))
+        ofile.write('%8d angles\n' % len(angles))
+        ofile.write('%8d dihedrals\n' % len(propers))
+        ofile.write('%8d impropers\n\n' % len(impropers))
 
         ofile.write('%8d atom types\n' % len(molecule.atoms))
         ofile.write('%8d bond types\n' % len(bonds))

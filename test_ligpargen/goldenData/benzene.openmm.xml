@@ -4,18 +4,18 @@
 <!--    OPLS Force Field with CM1A derived Atomic Charges  -->
 <ForceField>
 <AtomTypes>
-<Type name="opls_800" class"C800" element="C" mass="12.011"/>
-<Type name="opls_801" class"C801" element="C" mass="12.011"/>
-<Type name="opls_802" class"C802" element="C" mass="12.011"/>
-<Type name="opls_803" class"C803" element="C" mass="12.011"/>
-<Type name="opls_804" class"C804" element="C" mass="12.011"/>
-<Type name="opls_805" class"C805" element="C" mass="12.011"/>
-<Type name="opls_806" class"H806" element="H" mass="1.008"/>
-<Type name="opls_807" class"H807" element="H" mass="1.008"/>
-<Type name="opls_808" class"H808" element="H" mass="1.008"/>
-<Type name="opls_809" class"H809" element="H" mass="1.008"/>
-<Type name="opls_810" class"H810" element="H" mass="1.008"/>
-<Type name="opls_811" class"H811" element="H" mass="1.008"/>
+<Type name="opls_800" class="C800" element="C" mass="12.011"/>
+<Type name="opls_801" class="C801" element="C" mass="12.011"/>
+<Type name="opls_802" class="C802" element="C" mass="12.011"/>
+<Type name="opls_803" class="C803" element="C" mass="12.011"/>
+<Type name="opls_804" class="C804" element="C" mass="12.011"/>
+<Type name="opls_805" class="C805" element="C" mass="12.011"/>
+<Type name="opls_806" class="H806" element="H" mass="1.008"/>
+<Type name="opls_807" class="H807" element="H" mass="1.008"/>
+<Type name="opls_808" class="H808" element="H" mass="1.008"/>
+<Type name="opls_809" class="H809" element="H" mass="1.008"/>
+<Type name="opls_810" class="H810" element="H" mass="1.008"/>
+<Type name="opls_811" class="H811" element="H" mass="1.008"/>
 </AtomTypes>
 <Residues>
 <Residue name="MOL">
@@ -111,7 +111,7 @@
 <Improper class1="C803" class2="C804" class3="C805" class4="H807" k1="0.000000" k2="10.460000" k3="0.000000" k4="0.000000" periodicity1="1" periodicity2="2" periodicity3="3" periodicity4="4" phase1="0.00" phase2="3.141592653589793" phase3="0.00" phase4="3.141592653589793"/>
 <Improper class1="C804" class2="C805" class3="C801" class4="H808" k1="0.000000" k2="10.460000" k3="0.000000" k4="0.000000" periodicity1="1" periodicity2="2" periodicity3="3" periodicity4="4" phase1="0.00" phase2="3.141592653589793" phase3="0.00" phase4="3.141592653589793"/>
 </PeriodicTorsionForce>
-<NonbondedForce coulomb14scale="0.5" lj14scale="0.5"/>
+<NonbondedForce coulomb14scale="0.5" lj14scale="0.5">
 <Atom type="opls_800" charge="-0.138696" sigma="0.355000" epsilon="0.292880"/>
 <Atom type="opls_801" charge="-0.137064" sigma="0.355000" epsilon="0.292880"/>
 <Atom type="opls_802" charge="-0.135358" sigma="0.355000" epsilon="0.292880"/>

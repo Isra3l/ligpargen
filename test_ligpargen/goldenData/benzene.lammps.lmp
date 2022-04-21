@@ -1,10 +1,10 @@
 LAMMPS data file generated with LigParGen (israel.cabezadevaca@yale.edu)
 
-      15 atoms
+      12 atoms
       12 bonds
-      18 bonds
-      24 bonds
-       6 bonds
+      18 angles
+      24 dihedrals
+       6 impropers
 
       15 atom types
       12 bond types
