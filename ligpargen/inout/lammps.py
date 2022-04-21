@@ -49,7 +49,9 @@ def writeLMP(molecule, lmpFile):
         ofile.write('%8d bond types\n' % len(bonds))
         ofile.write('%8d angle types\n' % len(angles))
         ofile.write('%8d dihedral types\n' % len(propers))
-        if len(impropers) > 0: ofile.write('%8d improper types\n\n' % len(impropers))
+        if len(impropers) > 0: ofile.write('%8d improper types\n' % len(impropers))
+
+        ofile.write('\n')
 
         ofile.write('%12.6f %12.6f xlo xhi\n' % (min(xlist), min(xlist) + max_mol_size))
         ofile.write('%12.6f %12.6f ylo yhi\n' % (min(ylist), min(ylist) + max_mol_size))
