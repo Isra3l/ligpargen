@@ -23,7 +23,7 @@ setup(name='LigPargen',
       license='MIT License',
       packages=find_packages(),
       install_requires=[
-          'markdown', 'numpy'
+          'markdown', 'numpy', 'pybel'
       ],
       entry_points={
           'console_scripts': ['ligpargen=ligpargen.ligpargen:main'],
