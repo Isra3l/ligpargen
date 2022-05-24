@@ -296,6 +296,10 @@ def writeKEY(molecule, keyFile):
         ofile.write('\n\n')
 
 
+# def generateBondedAtomsLst(molecule, atom):
+    
+    
+
 def writeXYZ(molecule, xyzFile):
     """Generate XYZ file
 
@@ -313,16 +317,19 @@ def writeXYZ(molecule, xyzFile):
 
         atomsToWrite = sorted([atom for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]], key = lambda x: x.serialOriginal)
 
+        atomTypeToNewSerial = {atom.typeA:i for i, atom in enumerate(atomsToWrite, start =1)}
+
+        totalBonds = molecule.bondsVariable + molecule.bondsAdditional
+            
+        
         for i, atom in enumerate(atomsToWrite, start =1):
 
             bondedAtoms = []
 
-            for atomBonded in atom.bondedAtoms:
+            for bond in totalBonds: 
 
-                atomIndex = atomBonded -1 - molecule.numberOfStructuralDummyAtoms
-                atomSerial = molecule.atoms[atomIndex].serial
-
-                bondedAtoms.append(atomSerial)
+                if bond.atomA.typeA == atom.typeA: bondedAtoms.append(atomTypeToNewSerial[bond.atomB.typeA])
+                if bond.atomB.typeA == atom.typeA: bondedAtoms.append(atomTypeToNewSerial[bond.atomA.typeA])
 
             bondedAtoms = ''.join(['%6d' % atomBonded for atomBonded in bondedAtoms])
 
