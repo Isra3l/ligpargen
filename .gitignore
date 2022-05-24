@@ -1,0 +1,6 @@
+ligpargen/topology/__pycache__/
+ligpargen/__pycache__/
+ligpargen/inout/__pycache__/
+ligpargen/tools/__pycache__/
+LigPargen.egg-info/
+test_ligpargen/__pycache__/
