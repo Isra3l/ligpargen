@@ -49,8 +49,7 @@ class test_ligpargen(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
 
-        pass
-        # os.remove('MOL-smile.pdb')
+        os.remove(os.path.join(cls.workdir, 'MOL-debug.pdb'))
 
     def test_RDkitMolecule(self):
 
