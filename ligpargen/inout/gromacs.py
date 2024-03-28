@@ -47,7 +47,7 @@ def getChargeCorrection(atomsToWrite, alchemicalTransformation):
 
     if alchemicalTransformation:
 
-        rounded_valuesB = [round(atom.chargeB, 4) for atom in atomsToWrite]
+        rounded_valuesB = [round(atom.charge_B, 4) for atom in atomsToWrite]
         total_sumB = sum(rounded_valuesB)
         closest_integerB = round(total_sumB)
         chargeCorrectionB = closest_integerB - total_sumB
