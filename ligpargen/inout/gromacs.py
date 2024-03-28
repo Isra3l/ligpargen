@@ -27,7 +27,38 @@ headerGRO = 'Generated with LigParGen (israel.cabezadevaca@yale.edu)\n'
 kcalToKj = 4.184
 
 
-def printAtom( serial, molecule, atom, alchemicalTransformation):
+def getChargeCorrection(atomsToWrite, alchemicalTransformation):
+    """Charges in GMX use 4-digit precision and other softwares use 6-digit precision. For this reason, charges have to be rounded to avoid NON integer total charges.
+
+    Args:
+        atomsToWrite: list
+        alchemicalTransformation : bool
+
+    Returns:
+        float: Correction for the charges due to rounding
+    """
+
+    rounded_values = [round(atom.charge, 4) for atom in atomsToWrite]
+    total_sum = sum(rounded_values)
+    closest_integer = round(total_sum)
+    chargeCorrection = closest_integer - total_sum
+
+    chargeCorrectionB = 0.0
+
+    if alchemicalTransformation:
+
+        rounded_valuesB = [round(atom.chargeB, 4) for atom in atomsToWrite]
+        total_sumB = sum(rounded_valuesB)
+        closest_integerB = round(total_sumB)
+        chargeCorrectionB = closest_integerB - total_sumB
+
+
+    print(f'Corrections for GMX: {chargeCorrection}  {chargeCorrectionB}')
+
+    return chargeCorrection, chargeCorrectionB
+
+
+def printAtom( serial, molecule, atom, alchemicalTransformation, chargeCorrection, chargeCorrectionB):
     """Generate atom line   
 
     Parameters
@@ -47,10 +78,10 @@ def printAtom( serial, molecule, atom, alchemicalTransformation):
 
     if alchemicalTransformation:
         line = ' %5d %10s %6d %6s %5s %6d %10.4f %10.4f%11s%11.4f%11.4f \n' % (serial, atom.type_gmx, 1, 
-        molecule.residueName, atom.nameOriginal, 1, atom.charge, atom.mass, atom.type_gmx_B, atom.charge_B, atom.mass_B)
+        molecule.residueName, atom.nameOriginal, 1, atom.charge + chargeCorrection, atom.mass, atom.type_gmx_B, atom.charge_B + chargeCorrectionB, atom.mass_B)
     else:
         line = ' %5d %10s %6d %6s %5s %6d %10.4f %10.4f \n' % (serial, atom.type_gmx, 1, 
-        molecule.residueName, atom.nameOriginal, 1, atom.charge, atom.mass)
+        molecule.residueName, atom.nameOriginal, 1, atom.charge + chargeCorrection, atom.mass)
 
     return line
 
@@ -353,9 +384,15 @@ c2      c3       c4       c5      c0_B       c1_B      c2_B      c3_B       c4_B
 
         atomsToWrite = sorted([atom for atom in molecule.atoms[molecule.numberOfStructuralDummyAtoms:]], key = lambda x: x.serialOriginal)
 
+        chargeCorrection = 0.0
+        chargeCorrectionB = 0.0
+
         for serial, atomOriginalOrder in enumerate(atomsToWrite, start = 1):
 
-            ofile.write(printAtom(serial, molecule, atomOriginalOrder, alchemicalTransformation))
+            if len(atomsToWrite) == serial:  
+                chargeCorrection, chargeCorrectionB = getChargeCorrection(atomsToWrite, alchemicalTransformation)
+
+            ofile.write(printAtom(serial, molecule, atomOriginalOrder, alchemicalTransformation, chargeCorrection, chargeCorrectionB))
 
         ofile.write(remarks['bonds'])
 
