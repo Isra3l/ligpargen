@@ -53,7 +53,7 @@ def getChargeCorrection(atomsToWrite, alchemicalTransformation):
         chargeCorrectionB = closest_integerB - total_sumB
 
 
-    print(f'Corrections for GMX: {chargeCorrection}  {chargeCorrectionB}')
+    # print(f'Corrections for GMX: {chargeCorrection}  {chargeCorrectionB}')
 
     return chargeCorrection, chargeCorrectionB
 
