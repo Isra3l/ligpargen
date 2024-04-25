@@ -19,6 +19,19 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+def _parametersSanityCheck(bossData: list):
+    """Sanity check to report BOSS potential issues detected during OPLS parameterization.
+
+    Args:
+        bossData (list): BOSS out log file containing the parameterization data
+    """
+
+    for line in bossData:
+
+        if 'CHECK' in line: logger.warning(f'Detected potential problem with force parameterization: {line}')
+
+
+
 def _generateNewAtom(moleculeRDkit, atom, posParentParentParent, posParentParent, posParent, posAtom, parent,parentParent,parentParentParent, dummyAtomsShift):
     """
     Generate molecule atom from RDkit molecule
@@ -507,9 +520,15 @@ class Molecule(object):
 
             bondsFile = re.search(r'Atom1   Atom2      R0           K0         R1(.*?)Angle Bending Parameters', 
                 outfileData, re.DOTALL).group().splitlines()[1:-1]
+            
+            _parametersSanityCheck(bondsFile)
+            
             bondsFile = [bond[:40].split() for bond in bondsFile if not len(bond)==0 and 
                 not 'Missing' in bond and 
-                not 'Synonym' in bond]
+                not 'Synonym' in bond and
+                not 'CHECK' in bond]
+            
+            
 
         except:
 
@@ -563,9 +582,13 @@ class Molecule(object):
             
             anglesFile = re.search(r'Atom1 Atom2 Atom3    A0       K0       A1(.*?)(Quantum|                    Dipole Moment|SOLUTE SEEMS)', 
                 outfileData, re.DOTALL).group().splitlines()[1:-1]
+            
+            _parametersSanityCheck(anglesFile)
+
             anglesFile = [angle[:39].split() for angle in anglesFile if not len(angle)==0 and
                 not 'Missing' in angle and 
-                not 'Synonym' in angle]
+                not 'Synonym' in angle and
+                not 'CHECK' in angle]
 
         except:
 
