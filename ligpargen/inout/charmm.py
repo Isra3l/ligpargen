@@ -225,8 +225,12 @@ def writeRTF(molecule, rtfFile):
 
         for i, atom in enumerate(atomsToWrite, start =1):
 
-            ofile.write('ATOM %s %s %8.4f\n' %(atom.nameOriginal, atom.type_charmm, atom.charge))
-            chargeMolecule += atom.charge
+            if molecule.dualTopology: 
+                ofile.write('ATOM %s %s %8.4f\n' %(atom.nameOriginal, atom.type_charmm, atom.charge_dual))
+                chargeMolecule += atom.charge_dual
+            else: 
+                ofile.write('ATOM %s %s %8.4f\n' %(atom.nameOriginal, atom.type_charmm, atom.charge))
+                chargeMolecule += atom.charge
 
 
         for bond in molecule.bondsVariable: ofile.write('BOND  %-6s%-6s\n' % (bond.atomA.nameOriginal, bond.atomB.nameOriginal))

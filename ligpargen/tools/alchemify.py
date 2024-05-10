@@ -595,6 +595,7 @@ def generateABAtomsDual(moleculeAB, moleculeB):
         Molecule B
     """
 
+    moleculeAB.dualTopology = True
     atomsAB = moleculeAB.atoms
 
     lastAtomSerialInMoleculeAWithoutDummies = len(atomsAB) - moleculeAB.numberOfStructuralDummyAtoms
@@ -606,6 +607,11 @@ def generateABAtomsDual(moleculeAB, moleculeB):
         atomA.charge_B = 0.0
         atomA.epsilon_B = 0.0
         atomA.sigma_B = 0.0
+
+        atomA.charge_dual = atomA.charge
+        atomA.epsilon_dual = atomA.epsilon
+        atomA.sigma_dual = atomA.sigma
+
 
         atomA.typeB = 9000+atomA.typeB
 
@@ -624,6 +630,10 @@ def generateABAtomsDual(moleculeAB, moleculeB):
         if atomB.parent > 3: atomB.parent += lastAtomSerialInMoleculeAWithoutDummies
         if atomB.parentParent > 3: atomB.parentParent += lastAtomSerialInMoleculeAWithoutDummies
         if atomB.parentParentParent > 3: atomB.parentParentParent += lastAtomSerialInMoleculeAWithoutDummies 
+
+        atomB.charge_dual = atomB.charge
+        atomB.epsilon_dual = atomB.epsilon
+        atomB.sigma_dual = atomB.sigma
 
         atomB.charge = 0.0
         atomB.epsilon = 0.0

@@ -49,6 +49,10 @@ class Atom(object):
         self.sigma_B = float(sigma)
         self.epsilon_B = float(epsilon)
 
+        self.charge_dual = float(charge)
+        self.sigma_dual = float(sigma)
+        self.epsilon_dual = float(epsilon)
+
         self.x = float(x)
         self.y = float(y)
         self.z = float(z)

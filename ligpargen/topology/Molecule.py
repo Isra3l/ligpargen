@@ -106,6 +106,7 @@ class Molecule(object):
         self.geometryVariations = []
 
         self.alchemicalTransformation = False
+        self.dualTopology = False
 
         self.excludedList = []
 

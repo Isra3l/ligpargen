@@ -118,14 +118,15 @@ def write(molecule, molname, workdir, writeAtomParameters = False):
             atomsWithNonbondedParameters= [atom for atom in molecule.atoms if atom.typeA!=-1]
 
             for atom in atomsWithNonbondedParameters:
-                if atom.typeA !=100: 
-                    ofile.write('%4d%3d%3s%11.6f%10.6f%10.6f                              \n' % (atom.typeA, atom.atomicNumber, atom.atomTypeOPLS, atom.charge, \
-                    atom.sigma, atom.epsilon)) 
+                if atom.typeA !=100:
+
+                    ofile.write('%4d%3d%3s%11.6f%10.6f%10.6f                              \n' % (atom.typeA, atom.atomicNumber, atom.atomTypeOPLS, atom.charge, atom.sigma, atom.epsilon)) 
 
             for atom in atomsWithNonbondedParameters:
                 if atom.typeA !=atom.typeB and atom.typeB!=100:
-                    ofile.write('%4d%3d%3s%11.6f%10.6f%10.6f                                \n' % (atom.typeB, atom.atomicNumber_B, atom.atomTypeOPLS_B, atom.charge_B, \
-                        atom.sigma_B, atom.epsilon_B))
+                    
+                    ofile.write('%4d%3d%3s%11.6f%10.6f%10.6f                                \n' % (atom.typeB, atom.atomicNumber_B, atom.atomTypeOPLS_B, atom.charge_B, atom.sigma_B, atom.epsilon_B))
+
 
         ofile.write('                      \n')
 
