@@ -126,7 +126,7 @@ def printImproperDihedral(dihedral):
     V3 = dihedral.V3*0.5*kcalToKj
     V4 = dihedral.V4*0.5*kcalToKj
 
-    label = '<Improper class1=\"%s\" class2=\"%s\" class3=\"%s\" class4=\"%s\" ' % (dihedral.atomA.type_q, dihedral.atomB.type_q, dihedral.atomC.type_q, dihedral.atomD.type_q)
+    label = '<Improper class1=\"%s\" class2=\"%s\" class3=\"%s\" class4=\"%s\" ' % (dihedral.atomB.type_q, dihedral.atomA.type_q, dihedral.atomC.type_q, dihedral.atomD.type_q)
     label += 'k1=\"%0.6f\" k2=\"%0.6f\" k3=\"%0.6f\" k4=\"%0.6f\" ' % (V1, V2, V3, V4)
     label += 'periodicity1=\"1\" periodicity2=\"2\" periodicity3=\"3\" periodicity4=\"4\" '
     label += 'phase1=\"0.00\" phase2=\"3.141592653589793\" phase3=\"0.00\" phase4=\"3.141592653589793\"/>\n'
