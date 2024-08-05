@@ -68,6 +68,10 @@ def _generateNewAtom(moleculeRDkit, atom, posParentParentParent, posParentParent
     distance = rdGeometry.Point3D.Distance(posParent, posAtom)
     angle = geometry.getAngle(posParentParent, posParent, posAtom)
 
+    if angle>180.0: 
+        logger.warning(f'Detected angle bigger than 180.0 for atom {atom}')
+        angle = 180.0
+
     if posParentParentParent!=None: dihedral = geometry.getDihedral(posParentParentParent, posParentParent, posParent, posAtom)
     else: dihedral = posAtom.z
 
@@ -163,7 +167,7 @@ class Molecule(object):
         anglesVariable, anglesAdditional = cls._getAngles(zmatData, outFileData, atoms, serial2IndexAtoms)
         torsionsVariable, torsionsAdditional = cls._getTorsions(atoms, zmatData, outFileData, serial2IndexAtoms)
 
-        lst14pairs = cls._get14pairs(torsionsVariable, torsionsAdditional)
+        lst14pairs = cls._get14pairs(torsionsVariable, torsionsAdditional, anglesVariable, anglesAdditional, bondsVariable, bondsAdditional)
 
         return cls(atoms, bondsVariable, bondsAdditional, anglesVariable, anglesAdditional, torsionsVariable, 
             torsionsAdditional, serial2IndexAtoms, lst14pairs, numberOfStructuralDummyAtoms, shifX, shifY, shiftZ)
@@ -323,7 +327,7 @@ class Molecule(object):
 
         return atoms
 
-    def _get14pairs(torsionsVariable, torsionsAdditional):
+    def _get14pairs(torsionsVariable, torsionsAdditional, anglesVariable, anglesAdditional, bondsVariable, bondsAdditional):
         """
         Generate 14 pair list from the molecule torsions
 
@@ -340,9 +344,27 @@ class Molecule(object):
             14 pair list
         """
 
+        bondedUpToThree = [[bond.atomA.serial, bond.atomB.serial] for bond in bondsVariable] 
+        bondedUpToThree += [[bond.atomA.serial, bond.atomB.serial] for bond in bondsAdditional]
+        bondedUpToThree += [[angle.atomA.serial, angle.atomC.serial] for angle in anglesVariable]
+        bondedUpToThree += [[angle.atomA.serial, angle.atomC.serial] for angle in anglesAdditional]
+        
+        bondedUpToThree_sorted = set(tuple(sorted(sublist)) for sublist in bondedUpToThree)
+
         total = torsionsVariable + torsionsAdditional
 
-        pairSet = set([tuple(sorted([torsion.atomA,torsion.atomD], key= lambda x: x.serial)) for torsion in total if not torsion.improper and torsion.typeInitial!=0])
+        pairSet = set()
+
+        for torsion in total:
+            
+            if not torsion.improper and torsion.typeInitial!=0:
+
+                pair14 = tuple(sorted([torsion.atomA,torsion.atomD], key= lambda x: x.serial))
+                pair14serial = tuple([pair14[0].serial, pair14[1].serial])
+
+                if pair14serial not in bondedUpToThree_sorted:
+                
+                    pairSet.add(pair14)
 
         pairLst = [list(item) for item in sorted(pairSet, key= lambda x: (x[0].serial, x[1].serial))]
 

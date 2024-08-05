@@ -139,7 +139,7 @@ def generateMoleculeAB_singleTopology(moleculeA, moleculeB, BtoAIndexCorresponde
 
     # add dummies
 
-    dummies = {0:0, 1:1,2:2}
+    dummies = {0:0, 1:1,2:2, 3:3}
     AtoBserialCorrespondency.update(dummies)
     BtoAserialCorrespondency.update(dummies)
 
