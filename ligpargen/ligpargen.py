@@ -216,6 +216,9 @@ class LigParGen():
 
             moleculeRDkitB, newIndexToOriginalIndexB, atomsNameOriginalB, _ = utilities.generateRDkitMolecule(self.ifileB,self.smileB, self.workdir, molnameB)
 
+            self.chargeB = utilities.guessFormalMoleculeCharge(moleculeRDkitB, self.chargeB)
+            self.chargeAlgorithmB = utilities.guessChargeAlgorithm(self.chargeAlgorithmB, self.chargeB)
+
             BtoAserialCorrespondency,umatchB = alchemify.alignMolecules(moleculeRDkit, moleculeRDkitB, self.workdir, self.debug)
 
             moleculeB = Molecule.fromRDkitMolecule(moleculeRDkitB)
