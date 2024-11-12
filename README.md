@@ -81,7 +81,7 @@ or
 
 ### Option 2: Pull Docker Image
 
-A number of architecutral challenges arise when using BOSS, a code requiring 32-bit environments. Given the user has installed [Docker](https://www.docker.com/), one can simply use the image for development and deployment efficiency. 
+A number of architectural challenges arise when using BOSS, a code requiring 32-bit environments. Given the user has installed [Docker](https://www.docker.com/), one can simply use the image for development and deployment efficiency. 
 
 1 - Pull Docker Image 
 
