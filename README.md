@@ -71,39 +71,39 @@ or
 
     pip install -e ligpargen
 
-**Optional:** Check your installation by runing the tests included in the ligpargen folder.
+**Optional:** Check your installation by running the tests included in the ligpargen folder.
 
     cd ligpargen;python -m unittest test_ligpargen/test_ligpargen.py
 
-**TIP:** Do not forget to activate your py37 enviroment before using LigParGen.
+**TIP:** Do not forget to activate your py37 environment before using LigParGen.
 
     conda activate py37
 
 ### Option 2: Pull Docker Image
 
-A number of architecutral challenges arise when using BOSS, a code requiring 32-bit environments. Given the user has installed [Docker](https://www.docker.com/), one can simply use the image for development and deployment efficiency. 
+A number of architectural challenges arise when using BOSS, a code requiring 32-bit environments. Given the user has installed [Docker](https://www.docker.com/), one can simply use the image for development and deployment efficiency. 
 
 1 - Pull Docker Image 
 
 For BOSS v.5.0, use
 
-```python
+```bash
 docker pull awallace43/ligpargen:latest
 ```
 
 For BOSS v.5.1, use 
 
-```python
+```bash
 docker pull shehan807/ligpargen_v2.1_boss_v5.1:latest
 ```
 
 2 - Run Docker Image
 
-```python
+```bash
 docker run --rm -v $(pwd)/output_files:/opt/output awallace43/ligpargen bash -c "<MY LIGPARGEN CMDS>"
 ```
 
-```python
+```bash
 docker run --rm -v $(pwd)/output_files:/opt/output shehan807/ligpargen_v2.1_boss_v5.1 bash -c "<MY LIGPARGEN CMDS>"
 ```
 
