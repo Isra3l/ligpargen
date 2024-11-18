@@ -9,8 +9,6 @@
 
 **Note:** This new version has been written from scratch but it is based on the **Leela Dodda** initial ligpargen python code.
 
-## **WARNING: This version of ligpargen requires BOSS5.0 to work correctly. Some features like CM1A-LBCC are not available with the BOSS version provided by the Jorgensen Lab website. I strongly recommend you request a BOSS5.0 executable by sending an email directly to Prof. Jorgensen (william.jorgensen@yale.edu)**
-
 New LigParGen features:
 
 - The order and the name of the atoms will remain the same in the output files.
