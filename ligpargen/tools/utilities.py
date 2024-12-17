@@ -132,7 +132,7 @@ def generateRDkitMolecule(ifile, smile, workdir, molname, debug = False):
 
         if done == -1:
             
-            import pybel
+            from openbabel import pybel
 
             logger.warning(f'RDkit FAILS to generate the coordinates from the SMILES for {smile}. Trying new RDkit approach...')
 
