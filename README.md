@@ -38,15 +38,15 @@ BOSS is compiled for linux using 32 bits libraries so it can not run in windows 
 1.1 - Set the BOSSdir enviromental variable:
 
   - bashrc
-  
+
             export BOSSdir=PATH_TO_BOSS_DIRECTORY
   - cshrc
-        
+
             setenv BOSSdir PATH_TO_BOSS_DIRECTORY
 
     **TIP:** add this command line in your ~/.bashrc or ~/.cshrc file.
 
-2 - Download and install conda (anaconda or minicoda):  
+2 - Download and install conda (anaconda or minicoda):
 
     wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
 
@@ -54,11 +54,11 @@ or
 
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
-3 - Create and activate an enviroment for python3.7 (Everything was tested with 3.7):
+3 - Create and activate an enviroment for python3.7 (Everything was tested with 3.7, but it should work with python above 3.7 as well):
 
     conda create --name py37 python=3.7
 
-    conda activate py37  
+    conda activate py37
 **Optional TIP:** add this line to your .bashrc/.cshrc,....
 
 4- Install rdkit and openbabel in py37 enviroment
@@ -105,7 +105,7 @@ For alchemical transformations:
 
 - CM1A is automatically scaled by 1.14 in neutral molecules.
 - CM1A-LBCC is just for neutral molecules and it is also scaled by 1.14.
-  
+
 ## **Examples**
 
 Molecule template generation:
@@ -177,8 +177,8 @@ If you want to report an issue, please include all the necessary files, command 
 
 Please do not forget to cite the following references:
 
-1. LigParGen web server: an automatic OPLS-AA parameter generator for organic ligands  
-        Leela S. Dodda  Israel Cabeza de Vaca  Julian Tirado-Rives William L. Jorgensen 
+1. LigParGen web server: an automatic OPLS-AA parameter generator for organic ligands
+        Leela S. Dodda  Israel Cabeza de Vaca  Julian Tirado-Rives William L. Jorgensen
         Nucleic Acids Research, Volume 45, Issue W1, 3 July 2017, Pages W331–W336
 
 2. 1.14*CM1A-LBCC: Localized Bond-Charge Corrected CM1A Charges for Condensed-Phase Simulations
